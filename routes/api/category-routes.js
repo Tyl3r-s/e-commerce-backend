@@ -3,7 +3,14 @@ const { Category, Product } = require('../../models');
 
 // GET /api/categories
 router.get('/', (req, res) => {
-  Category.findAll()
+  Category.findAll({
+    include: [
+      {
+          model: Product,
+          attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
+      }
+    ]
+  })
   .then(dbCategoryData => res.json(dbCategoryData))
   .catch(err => {
       console.log(err);
